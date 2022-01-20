@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 
@@ -177,6 +177,32 @@ namespace Dizionario
                         File.Move("._temp", "Dizionario.txt");
                     }
                     else Console.WriteLine("Numero argomenti incorretto");
+
+                    break;
+                // Comando "salva"
+                case "salva":
+                    if (argomenti.Length == 2 && argomenti[1].Contains(".tsv") == true)
+                    {
+                        // Apro i file
+                        StreamWriter scrittore = new StreamWriter(argomenti[1], true, Encoding.Unicode);
+                        StreamReader lettore = new StreamReader("Dizionario.txt", true);
+
+                        string vocabolo;
+
+                        // Finche il file non termina
+                        while (lettore.EndOfStream == false)
+                        {
+                            // Leggo un vocabolo
+                            vocabolo = lettore.ReadLine();
+                            vocabolo = vocabolo.Replace('|', '\t');
+                            scrittore.WriteLine(vocabolo);
+                        }
+
+                        // Chiudo i file
+                        scrittore.Close(); scrittore = null;
+                        lettore.Close(); lettore = null;
+                    }
+                    else Console.WriteLine("Numero argomenti o argomento incorretto");
 
                     break;
                 // Comando non supportato
